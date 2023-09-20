@@ -5,17 +5,26 @@ import { HousingInfo } from "./housing-location";
   providedIn: "root",
 })
 export class HousingService {
-  protected housingInfoList: HousingInfo[] = [];
+  url = "http://localhost:3000/locations";
+  isLoading = true;
 
   constructor() {}
   // simulate GET
-  getHousingInfoList(): HousingInfo[] {
-    return this.housingInfoList;
-  }
-  getHousingInfoId(id: Number): HousingInfo | undefined {
-    return this.housingInfoList.find((housingInfoList) => {
-      return housingInfoList.id === id;
+  async getAllHousingInfo(): Promise<HousingInfo[]> {
+    this.isLoading = true;
+    const housingInfoList = await fetch(this.url);
+    await new Promise<void>((resolve, reject) => {
+      setTimeout(() => {
+        resolve();
+        this.isLoading = false;
+      }, 2000);
     });
+    return (await housingInfoList.json()) ?? [];
+  }
+  // simulate GET/:id
+  async getHousingInfoById(id: Number): Promise<HousingInfo> {
+    const housingInfo = await fetch(`${this.url}/${id}`);
+    return (await housingInfo.json()) ?? {};
   }
   submitApplication(firstName: string, lastName: string, email: string) {
     console.log(firstName, lastName, email);

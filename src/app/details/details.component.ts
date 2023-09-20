@@ -54,10 +54,17 @@ export class DetailsComponent {
     lastName: new FormControl(""),
     email: new FormControl(""),
   });
+
+  // ? 建構時執行
   constructor() {
     const housingLocationId = Number(this.route.snapshot.paramMap.get("id"));
-    this.housingInfo = this.housingService.getHousingInfoId(housingLocationId);
+    this.housingService
+      .getHousingInfoById(housingLocationId)
+      .then((housingInfo) => {
+        this.housingInfo = housingInfo;
+      });
   }
+
   submitApplication() {
     this.housingService.submitApplication(
       this.applyForm.value.firstName ?? "",

@@ -19,7 +19,7 @@ import { HousingInfo } from "./../housing-location";
       <p class="listing-location">
         {{ housingInfo.city }}, {{ housingInfo.state }}
       </p>
-      <a [routerLink]="['/details', housingInfo.id]"> Learn More</a>
+      <a [routerLink]="['/details', housingInfo.id]">Learn More</a>
     </section>
   `,
   styleUrls: ["./housing-location.component.css"],
